@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  key-network:
+    driver: bridge
+
+services:
+  postgres:
+    image: 'postgres:15'
+    environment:
+      - 'POSTGRES_DB=postgres'
+      - 'POSTGRES_PASSWORD=keycloak'
+      - 'POSTGRES_USER=keycloak'
+    ports:
+      - '5444:5432'
+    container_name: 'test-postgres-15'
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.1
+    ports:
+      - "8085:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: [ "start-dev" ]
+    networks:
+      - key-network

@@ -1,0 +1,58 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5444/postgres
+    username: keycloak
+    password: keycloak
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+    #    properties:           # <-- enable to show SQL
+    #      hibernate:          # <-- enable to show SQL
+    #        format_sql: true  # <-- enable to show SQL
+    #    show-sql: true        # <-- enable to show SQL
+    open-in-view: false
+  flyway:
+    locations: classpath:db/migration
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/my-realm
+#      client:
+#        registration:
+#          keycloak:
+#            provider: keycloak
+#            client-id: id
+#            client-secret: secret
+#            authorization-grant-type: client_credentials
+#            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+#        provider:
+#          keycloak:
+#            authorization-uri: ${oauth2.auth-server-url}/realms/${oauth2.realm}/protocol/openid-connect/auth
+#            token-uri: ${oauth2.auth-server-url}/realms/${oauth2.realm}/protocol/openid-connect/token
+#            user-info-uri: ${oauth2.auth-server-url}/realms/${oauth2.realm}/protocol/openid-connect/userinfo
+#            jwk-set-uri: ${oauth2.auth-server-url}/realms/${oauth2.realm}/protocol/openid-connect/certs
+#            user-name-attribute: preferred_username
+
+oauth2:
+  realm: neodb
+  auth-server-url: http://user-management:7001/auth
+  resource: neodb-ui
+  issuer: "${oauth2.auth-server-url}/realms/neodb"
+  login-url: "${oauth2.auth-server-url}"
+  redirect-uri: http://localhost:8000/
+  require-https: false
+  client-id: neodb-ui
+  response-type: code
+  scope: openid profile email
+  shery-document-validation: false
+  show-debug-information: true
+  request-access-token: true
+  logout-url: "${oauth2.auth-server-url}/realms/neodb/protocol/openid-connect/logout"
+  post-logout-redirect-uri: "${oauth2.redirect-uri}"
+
+server:
+  port: 8083
