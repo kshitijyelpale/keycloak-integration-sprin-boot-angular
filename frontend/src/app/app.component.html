@@ -1,0 +1,20 @@
+<div>
+  <h1>Demo of Keycloak with Angular 18 + Spring Boot 3.3 and Kotlin</h1>
+</div>
+<h2>{{ title }}</h2>
+<div>
+  <button (click)="logout()">Logout</button>
+</div>
+@for (p of permission; track p) {
+  <li>{{ p }}</li>
+}
+
+<div>
+  <button (click)="getPage1()">Get page1 message</button>
+  {{ message1 }}
+</div>
+
+<div>
+  <button (click)="getPage2()">Get page2 message</button>
+  {{ message2 }}
+</div>
